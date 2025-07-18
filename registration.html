@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 400px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 30px; /* Increased rounded corners */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            border-radius: 10px; /* Increased rounded corners */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 90%;
+            padding: 8px;
+            border-radius: 10px; /* Increased rounded corners */
+            border: 1px solid #ccc;
+        }
+
+        .btn-submit {
+            background-color: #000080;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px; /* Increased rounded corners */
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn-submit:hover {
+            background-color: #1976D2;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .small-text {
+            font-size: 9px;
+        }
+
+        .small-text a {
+            text-decoration: none;
+            color: #000080;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>User Registration</h2>
+        <form action="registration.php" method="post">
+            <div class="form-group">
+                <label for="txt_uname">Username:</label>
+                <input type="text" id="txt_uname" name="txt_uname" required>
+            </div>
+            <div class="form-group">
+                <label for="txt_email">Email:</label>
+                <input type="email" id="txt_email" name="txt_email" required>
+            </div>
+            <div class="form-group">
+                <label for="txt_pwd">Password:</label>
+                <input type="password" id="txt_pwd" name="txt_pwd" required>
+            </div>
+            <div class="form-group">
+                <label for="txt_confirm_pwd">Confirm Password:</label>
+                <input type="password" id="txt_confirm_pwd" name="txt_confirm_pwd" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn-submit">
+            </div>
+            <div class="text-center mt-3 small-text">
+                <p>Already have an account? <a href="loginhtml.html">Click here</a></p>
+            </div>
+        </form>
+    </div>
+
+    <div class="popup" id="errorPopup">
+        <p id="popupMessage"></p>
+    </div>
+
+    <script>
+        function showErrorPopup(message) {
+            var popup = document.getElementById("errorPopup");
+            var popupMessage = document.getElementById("popupMessage");
+            popupMessage.innerText = message;
+            popup.style.display = "block";
+        }
+    </script>
+</body>
+</html>

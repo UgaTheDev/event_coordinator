@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Propose Event</title>
+    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="proposeevents.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <a href="home.php">Home</a>
+        <a href="eligibleevents.php">Eligible Events</a>
+        <a href="registeredevents.php">Registered Events</a>
+        <a href="proposeevents.html"><u>Propose Event</u></a>
+        <a href="optimaldisplay.php">Available Times</a>
+        <a href="api.html">Weather Forecast</a>
+        <a href="logout.php">Logout</a>
+      </div>
+
+    <div class="form-container">
+        <form action="proposeevents.php" method="post">
+            <input type="text" name="event_name" placeholder="Event Name" required><br>
+            <input type="date" name="event_date" placeholder="Event Date" required><br>
+            <textarea name="event_details" placeholder="Event Details" required></textarea><br>
+            <input type="time" name="event_starttime" placeholder="Start Time" required><br>
+            <input type="time" name="event_endtime" placeholder="End Time" required><br>
+            <input type="hidden" name="event_organiser" value=$username>
+            <input type="hidden" name="completed" value="0">
+            <button type="submit">Confirm</button>
+        </form>
+    </div>
+    
+</body>
+</html>
+

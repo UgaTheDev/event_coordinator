@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hong Kong Weather Forecast</title>
+    <link rel="stylesheet" href="weather_api.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <a href="home.php">Home</a>
+        <a href="eligibleevents.php">Eligible Events</a>
+        <a href="registeredevents.php">Registered Events</a>
+        <a href="proposeevents.html">Propose Event</a>
+        <a href="optimaldisplay.php">Available Times</a>
+        <a href="api.html"><u>Weather Forecast</u></a>
+        <a href="logout.php">Logout</a>
+    </div>
+    <div class="container">
+        <h1>Hong Kong Weather Forecast</h1>
+        <button id="fetchWeather">Get Weather Forecast</button>
+        <div id="weather_data"></div>
+    </div>
+    <script>
+        document.getElementById('fetchWeather').addEventListener('click', fetch_weather_forecast);
+        function auto_weather_updating() {
+            fetch_weather_forecast();
+            //8hours is 28800000 milliseconds, refetch data from API after 8 hours
+            setInterval(fetch_weather_forecast, 28800000);
+        }
+        auto_weather_updating();
+
+        function fetch_weather_forecast() {
+            const url = 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=en';
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`There is an error with the HTTP. status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    display_weather(data);
+                })
+                .catch(error => {
+                    console.error('There was an error fetching weather data:', error);
+                    document.getElementById('weather_data').innerText = 'Failed to load weather data.';
+                });
+        }
+
+        function display_weather(data) {
+            const weather_container = document.getElementById('weather_data');
+            //clear any existing content within the container
+            weather_container.innerHTML = ''; 
+
+            const generalSituation = document.createElement('div');
+            generalSituation.innerHTML = `<h3>General Situation</h3><p>${data.generalSituation}</p>`;
+            weather_container.appendChild(generalSituation);
+
+            data.weatherForecast.forEach(forecast => {
+                const forecast_element = document.createElement('div');
+                forecast_element.classList.add('forecast');
+                //converts the date to yyyy-mm-dd format to align with stored dates' convention in database
+                const formattedDate = `${forecast.forecastDate.substring(0, 4)}-${forecast.forecastDate.substring(4, 6)}-${forecast.forecastDate.substring(6, 8)}`;
+                //logging forecast data to console to easily debug
+                console.log(`Forecast Data: Date: ${formattedDate}, Min Temp: ${forecast.forecastMintemp.value},
+                Max Temp: ${forecast.forecastMaxtemp.value}, Weather: ${forecast.forecastWeather}`);
+                forecast_element.innerHTML = `
+                    <h4>Date: ${formattedDate} (${forecast.week})</h4>
+                    <p>Weather: ${forecast.forecastWeather}</p>
+                    <p>Max Temp: ${forecast.forecastMaxtemp.value} °C</p>
+                    <p>Min Temp: ${forecast.forecastMintemp.value} °C</p>
+                `;
+                weather_container.appendChild(forecast_element);
+                insertWeatherInfo(formattedDate, forecast.forecastMintemp.value, forecast.forecastMaxtemp.value, forecast.forecastWeather);
+            });
+        }
+
+        function insertWeatherInfo(date, mintemp, maxtemp, weather_description) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "insert_weather.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                //check if AJAX request is complete
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        //log the response from PHP
+                        console.log(xhr.responseText); 
+                    } else {
+                        console.error('Error inserting into the database:', xhr.statusText);
+                    }
+                }
+            };
+
+            //log sent dates
+            console.log(`Sending date to insert: ${date}, mintemp: ${mintemp}, maxtemp: ${maxtemp}, weather: ${weather_description}`);
+            //send, using a POST request, the date, min temperature, max temperature, and weather description
+            xhr.send(`date=${date}&mintemp=${mintemp}&maxtemp=${maxtemp}&weather=${encodeURIComponent(weather_description)}`);
+        }
+    </script>
+</body>
+</html>

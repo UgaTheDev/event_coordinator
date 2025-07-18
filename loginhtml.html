@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="loginhtml.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form action="login.php" method="post">
+          <div class="form-group">
+              <label for="txt_uname">Username:</label>
+              <input type="username" id="txt_uname" name="txt_uname" required>
+          </div>
+          <div class="form-group">
+              <label for="txt_pwd">Password:</label>
+              <input type="password" id="txt_pwd" name="txt_pwd" required>
+          </div>
+          <div class="form-group">
+              <input type="submit" value="Login" class="btn-submit">
+          </div>
+          <a href="index.php" class="google-link">Sign in with Google</a>
+          <div class="text-center mt-3 small-text">
+              <p>Don't have an account? <a href="registration.html">Register</a></p>
+          </div>
+        </form>
+    </div>
+
+    <div class="popup" id="errorPopup">
+        <p id="popupMessage"></p>
+    </div>
+
+    <script>
+        function showErrorPopup(message) {
+            var popup = document.getElementById("errorPopup");
+            var popupMessage = document.getElementById("popupMessage");
+            popupMessage.innerText = message;
+            popup.style.display = "block";
+        }
+    </script>
+</body>
+</html>
