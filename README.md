@@ -8,7 +8,9 @@ A web-based Event Manager system built with **HTML**, **CSS**, **PHP**, and **My
 ## Features
 
 - **User-friendly interface:** Clean design using HTML and CSS for easy navigation and event management.  
-- **Event creation and editing:** Users can add new events, update details, and delete events seamlessly.  
+- **Event creation and editing:** Users can add new events, update details, and delete events seamlessly.
+- **Event registration:** Users can register and unregister for events efficiently.
+- **Calendar display:** Users can view when upcoming events they have registered for take place.
 - **Weather API Integration:** Events on days forecasted to rain, as well as on particularly hot or cold days, are flagged with a notification to alert users (note: Hong Kong Observatory API used for this integration and is not representative of weather in other regions)
 - **Availability Input:** Allows users to input their availability for potential events
 - **Optimal time calculator:** Calculates the ideal time to organise and schedule plans based on users' availability
